@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from django.db.models.signals import post_save
 # Create your models here.
 class User(AbstractUser):
     ROLE_CHOICES=(
@@ -31,4 +32,22 @@ class StudentProfile(models.Model):
     gender=models.CharField(max_length=50,choices=GENDER_CHOICES,default="male")
 
     owner=models.OneToOneField(User,on_delete=models.CASCADE,related_name="st_profile")
+
+
+def create_trainer_profile(sender,instance,created,**kwargs):
+
+    if created and instance.role=="Trainer":
+
+        TrainerProfile.objects.create(owner = instance)
+
+post_save.connect(create_trainer_profile,sender = User)
+
+def create_student_profile(sender,instance,created,**kwargs):
+
+    if created and instance.role=="Student":
+
+        StudentProfile.objects.create(owner = instance)
+
+post_save.connect(create_student_profile,sender = User)
+
 

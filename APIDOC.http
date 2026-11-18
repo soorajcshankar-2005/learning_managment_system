@@ -1,0 +1,11 @@
+###
+POST http://127.0.0.1:8000/accounts/register/
+Content-Type: application/json
+
+{
+    "username":"Saavan",
+    "email":"saavan@gmail.com",
+    "password":"saavan@123",
+    "phone":"7890987668",
+    "role":"Trainer"
+}
